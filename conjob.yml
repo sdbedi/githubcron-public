@@ -1,0 +1,28 @@
+name: Commit date to master
+on:
+  schedule:
+    # Runs "every 24 hours at 12:00" (see https://crontab.guru)
+    - cron: '0 12 * * *'
+jobs:
+  date:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout the branch
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: save current date
+        run: |
+          # do some operation that changes a file in the git repo
+          date > time.txt
+      - name: setup git config
+        run: |
+          # setup the username and email.
+          git config user.name <USERNAME>
+          git config user.email <EMAIL>
+
+      - name: commit
+        run: |
+          # Stage the file, commit and push
+          git add time.txt
+          git commit -m "new date commit"
+          git push origin main
